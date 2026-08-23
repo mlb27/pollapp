@@ -1,0 +1,25 @@
+<section class="survey-overview" aria-label="Survey overview">
+  <div class="survey-overview__controls">
+    <div class="survey-tabs" role="group" aria-label="Survey status">
+      <button class="survey-tabs__button survey-tabs__button--active" type="button" aria-pressed="true">
+        Active survey
+      </button>
+      <button class="survey-tabs__button" type="button" aria-pressed="false">Past survey</button>
+    </div>
+
+    <button class="survey-overview__sort-button" type="button">
+      Sort by categories
+      <span class="survey-overview__sort-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="survey-overview__grid">
+    @for (survey of activeSurveys; track survey.id) {
+      <article class="survey-list-card">
+        <p class="survey-list-card__category">{{ survey.category }}</p>
+        <h3 class="survey-list-card__title">{{ survey.title }}</h3>
+        <span class="survey-list-card__deadline">{{ survey.deadline }}</span>
+      </article>
+    }
+  </div>
+</section>

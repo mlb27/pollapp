@@ -1,0 +1,84 @@
+@use '../../../../../styles/functions';
+@use '../../../../../styles/variables' as variables;
+
+:host {
+  display: block;
+  width: functions.px-to-rem(1027);
+  max-width: 100%;
+  margin: functions.px-to-rem(56) auto 0;
+}
+
+.ending-soon-surveys {
+  text-align: left;
+
+  &__title {
+    margin: 0;
+    color: variables.$white;
+    font-family: 'Mulish', sans-serif;
+    font-size: functions.px-to-rem(32);
+    font-weight: 500;
+  }
+}
+
+.survey-card-list {
+  display: grid;
+  grid-template-columns: repeat(3, functions.px-to-rem(321));
+  margin-top: functions.px-to-rem(32);
+  gap: functions.px-to-rem(32);
+}
+
+.survey-card {
+  position: relative;
+  box-sizing: border-box;
+  width: functions.px-to-rem(321);
+  height: functions.px-to-rem(310);
+  padding-top: functions.px-to-rem(40);
+  padding-inline: functions.px-to-rem(44);
+  border-top-right-radius: functions.px-to-rem(80);
+  background-color: variables.$bg-card;
+  color: variables.$primary-purple;
+  font-family: 'Mulish', sans-serif;
+  transition: background-color 250ms ease-out;
+
+  &__category {
+    margin: 0;
+    font-size: functions.px-to-rem(14);
+    font-weight: 600;
+  }
+
+  &__title {
+    margin: functions.px-to-rem(8) 0 0;
+    font-size: functions.px-to-rem(26);
+    font-weight: 700;
+  }
+
+  &__deadline {
+    position: absolute;
+    bottom: functions.px-to-rem(67);
+    left: functions.px-to-rem(44);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: fit-content;
+    height: functions.px-to-rem(24);
+    padding: functions.px-to-rem(3) functions.px-to-rem(6);
+    border-top-right-radius: functions.px-to-rem(14);
+    background-color: variables.$secondary-orange;
+    color: variables.$primary-purple;
+    font-size: functions.px-to-rem(14);
+    line-height: functions.px-to-rem(18);
+    white-space: nowrap;
+    transition: background-color 250ms ease-out;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .survey-card:hover {
+    background-color: variables.$bg-card-hover;
+
+    .survey-card__deadline {
+      background-color: variables.$primary-orange;
+    }
+  }
+}

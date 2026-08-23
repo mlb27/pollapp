@@ -1,0 +1,120 @@
+@use '../../../../../styles/functions';
+@use '../../../../../styles/variables' as variables;
+
+:host {
+  display: block;
+  width: functions.px-to-rem(1042);
+  max-width: 100%;
+  margin: functions.px-to-rem(40) auto 0;
+}
+
+.survey-overview {
+  text-align: left;
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__sort-button {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    gap: functions.px-to-rem(12);
+    background-color: transparent;
+    color: variables.$white;
+    font-family: 'Mulish', sans-serif;
+    font-size: functions.px-to-rem(18);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__sort-icon {
+    width: 0;
+    height: 0;
+    border-top: functions.px-to-rem(9) solid variables.$white;
+    border-right: functions.px-to-rem(7) solid transparent;
+    border-left: functions.px-to-rem(7) solid transparent;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: functions.px-to-rem(40);
+    gap: functions.px-to-rem(16);
+  }
+}
+
+.survey-tabs {
+  display: flex;
+  gap: functions.px-to-rem(16);
+
+  &__button {
+    min-height: functions.px-to-rem(24);
+    padding: functions.px-to-rem(3) functions.px-to-rem(10);
+    border: 0;
+    border-radius: functions.px-to-rem(12);
+    background-color: variables.$bg-card;
+    color: variables.$primary-purple;
+    font-family: 'Mulish', sans-serif;
+    font-size: functions.px-to-rem(14);
+    cursor: pointer;
+
+    &--active {
+      background-color: variables.$primary-orange;
+    }
+  }
+}
+
+.survey-list-card {
+  position: relative;
+  box-sizing: border-box;
+  width: functions.px-to-rem(513);
+  height: functions.px-to-rem(130);
+  padding: functions.px-to-rem(12) functions.px-to-rem(20);
+  border-radius: functions.px-to-rem(5) functions.px-to-rem(50) functions.px-to-rem(5)
+    functions.px-to-rem(5);
+  background-color: variables.$bg-survey-list-card;
+  font-family: 'Mulish', sans-serif;
+  transition: background-color 250ms ease-out;
+
+  &__category {
+    margin: 0;
+    color: variables.$primary-orange;
+    font-size: functions.px-to-rem(14);
+    font-weight: 600;
+  }
+
+  &__title {
+    margin: functions.px-to-rem(8) 0 0;
+    color: variables.$white;
+    font-size: functions.px-to-rem(24);
+    font-weight: 700;
+  }
+
+  &__deadline {
+    position: absolute;
+    right: functions.px-to-rem(20);
+    bottom: functions.px-to-rem(12);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    height: functions.px-to-rem(24);
+    padding: functions.px-to-rem(3) functions.px-to-rem(6);
+    border-top-right-radius: functions.px-to-rem(14);
+    background-color: variables.$secondary-orange;
+    color: variables.$primary-purple;
+    font-size: functions.px-to-rem(14);
+    line-height: functions.px-to-rem(18);
+    white-space: nowrap;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .survey-list-card:hover {
+    background-color: variables.$bg-survey-list-card-hover;
+  }
+}
