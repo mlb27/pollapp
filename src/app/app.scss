@@ -1,0 +1,9 @@
+@use '../styles/functions';
+
+.app {
+  width: 100%;
+  max-width: functions.px-to-rem(1440);
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-inline: auto;
+}
