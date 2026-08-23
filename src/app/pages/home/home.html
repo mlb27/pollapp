@@ -4,7 +4,7 @@
   </header>
 
   <main class="home-main">
-    <app-home-hero />
+    <app-home-hero (createSurvey)="openCreateSurveyDialog()" />
 
     <section class="home-surveys">
       <h2 class="home-surveys__title">Your surveys</h2>
@@ -13,3 +13,5 @@
     </section>
   </main>
 </div>
+
+<app-create-survey-dialog />

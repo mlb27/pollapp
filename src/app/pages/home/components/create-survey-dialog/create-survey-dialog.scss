@@ -1,0 +1,111 @@
+@use '../../../../../styles/functions';
+@use '../../../../../styles/variables' as variables;
+
+.create-survey-dialog {
+  box-sizing: border-box;
+  width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(1166));
+  max-width: none;
+  height: min(functions.px-to-rem(844), calc(100svh - functions.px-to-rem(32)));
+  max-height: none;
+  margin: auto;
+  padding: functions.px-to-rem(40) functions.px-to-rem(54);
+  overflow: auto;
+  border: 0;
+  border-radius: functions.px-to-rem(5) functions.px-to-rem(100) functions.px-to-rem(5)
+    functions.px-to-rem(5);
+  background-color: variables.$primary-purple;
+  color: variables.$white;
+
+  &::backdrop {
+    background-color: rgb(34 18 39 / 72%);
+  }
+
+  &__frame {
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__status {
+    display: inline-flex;
+    min-height: functions.px-to-rem(26);
+    align-items: center;
+    padding-inline: functions.px-to-rem(9);
+    background-color: variables.$secondary-orange;
+    color: #221227;
+    font-size: functions.px-to-rem(16);
+  }
+
+  &__title {
+    margin: functions.px-to-rem(7) 0 0;
+    color: variables.$primary-orange;
+    font-family: 'Nerko One', cursive;
+    font-size: functions.px-to-rem(48);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  &__cancel-button {
+    display: flex;
+    height: functions.px-to-rem(40);
+    align-items: center;
+    gap: functions.px-to-rem(12);
+    padding-inline: functions.px-to-rem(14);
+    border: 0;
+    border-radius: functions.px-to-rem(10);
+    background-color: variables.$primary-orange-transparent;
+    color: variables.$white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 180ms ease-out;
+
+    &:hover {
+      background-color: #ffb77066;
+    }
+  }
+
+  &__close-icon {
+    font-size: functions.px-to-rem(25);
+    font-weight: 400;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .create-survey-dialog {
+    padding: functions.px-to-rem(30) functions.px-to-rem(24);
+    border-top-right-radius: functions.px-to-rem(60);
+
+    &__title {
+      font-size: functions.px-to-rem(42);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .create-survey-dialog {
+    width: calc(100% - functions.px-to-rem(16));
+    height: calc(100svh - functions.px-to-rem(16));
+    padding: functions.px-to-rem(24) functions.px-to-rem(16);
+
+    &__header {
+      align-items: flex-start;
+      gap: functions.px-to-rem(16);
+    }
+
+    &__title {
+      font-size: functions.px-to-rem(36);
+    }
+
+    &__cancel-button span:first-child {
+      display: none;
+    }
+  }
+}

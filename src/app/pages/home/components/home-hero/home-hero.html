@@ -1,10 +1,10 @@
 <section class="home-hero">
   <h1 class="home-hero__title">Collect Feedback,<br />Unlock Ideas</h1>
   <p class="home-hero__description">
-    Create and share surveys in minutes – from team events to workplace culture. Collect
-    opinions, engage your audience,<br />and turn feedback into action.
+    Create and share surveys in minutes – from team events to workplace culture. Collect opinions,
+    engage your audience,<br />and turn feedback into action.
   </p>
-  <button class="home-hero__button" type="button">
+  <button class="home-hero__button" type="button" (click)="createSurvey.emit()">
     <span class="home-hero__button-label">New survey</span>
     <img
       class="home-hero__button-icon"
@@ -17,13 +17,7 @@
 </section>
 
 <div class="home-visual" aria-hidden="true">
-  <img
-    class="home-visual__phone"
-    src="/img/home/home.phone.png"
-    alt=""
-    width="520"
-    height="520"
-  />
+  <img class="home-visual__phone" src="/img/home/home.phone.png" alt="" width="520" height="520" />
   <img
     class="home-visual__bubble"
     src="/img/home/home.phone-bubble.png"

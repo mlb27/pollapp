@@ -1,0 +1,27 @@
+<dialog
+  #dialog
+  class="create-survey-dialog"
+  aria-labelledby="create-survey-title"
+  (close)="resetForm()"
+>
+  <div class="create-survey-dialog__frame">
+    <header class="create-survey-dialog__header">
+      <div>
+        <span class="create-survey-dialog__status">Draft</span>
+        <h2 id="create-survey-title" class="create-survey-dialog__title">Create new survey</h2>
+      </div>
+
+      <button
+        class="create-survey-dialog__cancel-button"
+        type="button"
+        aria-label="Cancel creating the survey"
+        (click)="close()"
+      >
+        <span>Cancel</span>
+        <span class="create-survey-dialog__close-icon" aria-hidden="true">&times;</span>
+      </button>
+    </header>
+
+    <app-survey-form (surveyPublished)="close()" />
+  </div>
+</dialog>

@@ -1,0 +1,152 @@
+<form class="survey-form" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="survey-form__content">
+    <div class="survey-form__general-fields">
+      <div class="survey-form__field">
+        <label for="survey-name">Survey name</label>
+        <div class="survey-form__input-row">
+          <input
+            id="survey-name"
+            type="text"
+            formControlName="name"
+            minlength="3"
+            required
+            [attr.aria-invalid]="showError(surveyForm.controls.name)"
+          />
+          <button
+            class="survey-form__delete-button"
+            type="button"
+            aria-label="Clear survey name"
+            (click)="clearControl(surveyForm.controls.name)"
+          >
+            <img
+              class="survey-form__delete-icon"
+              src="/img/survey-question-form/survey-question.delete.png"
+              alt=""
+              width="26"
+              height="26"
+            />
+          </button>
+        </div>
+        @if (showError(surveyForm.controls.name)) {
+          <p class="survey-form__error">
+            @if (surveyForm.controls.name.hasError('minlength')) {
+              Use at least 3 characters.
+            } @else {
+              Please enter a survey name.
+            }
+          </p>
+        }
+      </div>
+
+      <div class="survey-form__details-row">
+        <div class="survey-form__field">
+          <label for="survey-end-date">Set end date</label>
+          <div class="survey-form__input-row">
+            <input
+              id="survey-end-date"
+              type="date"
+              formControlName="endDate"
+              [min]="minimumEndDate"
+              required
+              [attr.aria-invalid]="showError(surveyForm.controls.endDate)"
+            />
+            <button
+              class="survey-form__delete-button"
+              type="button"
+              aria-label="Clear end date"
+              (click)="clearControl(surveyForm.controls.endDate)"
+            >
+              <img
+                class="survey-form__delete-icon"
+                src="/img/survey-question-form/survey-question.delete.png"
+                alt=""
+                width="26"
+                height="26"
+              />
+            </button>
+          </div>
+          @if (showError(surveyForm.controls.endDate)) {
+            <p class="survey-form__error">
+              @if (surveyForm.controls.endDate.hasError('required')) {
+                Please choose an end date.
+              } @else if (surveyForm.controls.endDate.hasError('pastDate')) {
+                The end date cannot be in the past.
+              } @else {
+                Please enter a valid date.
+              }
+            </p>
+          }
+        </div>
+
+        <div class="survey-form__field survey-form__field--category">
+          <label for="survey-category">Choose category</label>
+          <select
+            id="survey-category"
+            formControlName="category"
+            required
+            [attr.aria-invalid]="showError(surveyForm.controls.category)"
+          >
+            <option value="" disabled>Select category</option>
+            <option value="team-activities">Team activities</option>
+            <option value="health-wellness">Health &amp; Wellness</option>
+            <option value="gaming-entertainment">Gaming &amp; Entertainment</option>
+          </select>
+          @if (showError(surveyForm.controls.category)) {
+            <p class="survey-form__error">Please choose a category.</p>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="survey-form__description">
+      <div class="survey-form__field">
+        <label for="survey-description"> Describing text <span>(optional)</span> </label>
+        <div class="survey-form__input-row survey-form__input-row--description">
+          <textarea id="survey-description" formControlName="description"></textarea>
+          <button
+            class="survey-form__delete-button"
+            type="button"
+            aria-label="Clear description"
+            (click)="clearControl(surveyForm.controls.description)"
+          >
+            <img
+              class="survey-form__delete-icon"
+              src="/img/survey-question-form/survey-question.delete.png"
+              alt=""
+              width="26"
+              height="26"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="survey-form__questions" formArrayName="questions">
+      @for (question of questions.controls; track question; let questionIndex = $index) {
+        <app-survey-question-form
+          [question]="question"
+          [questionIndex]="questionIndex"
+          [showErrors]="submitted()"
+          (removeQuestion)="removeQuestion($event)"
+        />
+      }
+
+      @if (questions.length < maxQuestions) {
+        <div class="survey-form__add-question-slot">
+          <button class="survey-form__add-question-button" type="button" (click)="addQuestion()">
+            <span>Add next question</span>
+            <img
+              class="survey-form__add-icon"
+              src="/img/survey-question-form/survey-question.add_circle.png"
+              alt=""
+              width="24"
+              height="24"
+            />
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+
+  <button class="survey-form__publish-button" type="submit">Publish</button>
+</form>

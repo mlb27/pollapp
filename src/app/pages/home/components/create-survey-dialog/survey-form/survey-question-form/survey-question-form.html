@@ -1,0 +1,96 @@
+<fieldset class="survey-question" [formGroup]="question()">
+  <legend>
+    <span class="survey-question__legend-content">
+      <span>{{ questionIndex() + 1 }}. Question</span>
+      <button
+        class="survey-question__delete-button"
+        type="button"
+        [attr.aria-label]="'Delete question ' + (questionIndex() + 1)"
+        (click)="deleteQuestion()"
+      >
+        <img
+          class="survey-question__delete-icon"
+          src="/img/survey-question-form/survey-question.delete.png"
+          alt=""
+          width="26"
+          height="26"
+        />
+      </button>
+    </span>
+  </legend>
+
+  <input
+    class="survey-question__question-input"
+    type="text"
+    formControlName="questionText"
+    placeholder="Which date would work best for you?"
+    minlength="3"
+    required
+    [attr.aria-label]="'Question ' + (questionIndex() + 1)"
+    [attr.aria-invalid]="shouldShowError(question().controls.questionText)"
+  />
+  @if (shouldShowError(question().controls.questionText)) {
+    <p class="survey-question__error">
+      @if (question().controls.questionText.hasError('minlength')) {
+        Use at least 3 characters.
+      } @else {
+        Please enter a question.
+      }
+    </p>
+  }
+
+  <div class="survey-question__answers-heading">
+    <span>Answers</span>
+    <label class="survey-question__checkbox">
+      <input type="checkbox" formControlName="allowMultipleAnswers" />
+      <span>Allow multiple answers.</span>
+    </label>
+  </div>
+
+  <div formArrayName="answers">
+    @for (answer of answers.controls; track answer; let answerIndex = $index) {
+      <div class="survey-question__answer-row">
+        <span>{{ getAnswerLabel(answerIndex) }}</span>
+        <div>
+          <input
+            type="text"
+            [formControlName]="answerIndex"
+            required
+            [attr.aria-label]="'Answer ' + getAnswerLabel(answerIndex)"
+            [attr.aria-invalid]="shouldShowError(answer)"
+          />
+          @if (shouldShowError(answer)) {
+            <p class="survey-question__error">Please enter an answer.</p>
+          }
+        </div>
+        <button
+          class="survey-question__delete-button"
+          type="button"
+          [attr.aria-label]="'Delete answer ' + getAnswerLabel(answerIndex)"
+          (click)="removeAnswer(answerIndex)"
+        >
+          <img
+            class="survey-question__delete-icon"
+            src="/img/survey-question-form/survey-question.delete.png"
+            alt=""
+            width="26"
+            height="26"
+          />
+        </button>
+      </div>
+    }
+  </div>
+
+  @if (answers.length < maxAnswers) {
+    <button class="survey-question__text-button" type="button" (click)="addAnswer()">
+      <span>Add answer</span>
+      <img
+        class="survey-question__add-icon"
+        src="/img/survey-question-form/survey-question.add_circle.png"
+        alt=""
+        width="24"
+        height="24"
+      />
+    </button>
+  }
+</fieldset>
