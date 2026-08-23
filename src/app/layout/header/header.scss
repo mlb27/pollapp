@@ -1,0 +1,50 @@
+@use '../../../styles/functions';
+@use '../../../styles/variables' as variables;
+
+:host {
+  display: block;
+}
+
+.app-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(1218));
+  margin-inline: auto;
+  padding-top: functions.px-to-rem(39);
+
+  &__home-link,
+  &__logo {
+    display: block;
+  }
+
+  &__create-button {
+    min-width: functions.px-to-rem(159);
+    min-height: functions.px-to-rem(48);
+    padding: functions.px-to-rem(12) functions.px-to-rem(16);
+    border: 0;
+    border-radius: functions.px-to-rem(10);
+    background-color: variables.$secondary-orange;
+    color: variables.$primary-purple;
+    font-family: 'Mulish', sans-serif;
+    font-size: functions.px-to-rem(18);
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      background-color 250ms ease-out,
+      transform 250ms ease-out;
+
+    &:focus-visible {
+      outline: functions.px-to-rem(3) solid variables.$primary-orange;
+      outline-offset: functions.px-to-rem(3);
+    }
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .app-header__create-button:hover {
+    background-color: variables.$primary-orange;
+    transform: translateY(functions.px-to-rem(-2));
+  }
+}

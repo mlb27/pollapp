@@ -1,20 +1,16 @@
 <section class="ending-soon-surveys">
   <h3 class="ending-soon-surveys__title">Ending soon surveys</h3>
   <div class="survey-card-list">
-    <article class="survey-card">
-      <p class="survey-card__category">Team activities</p>
-      <h4 class="survey-card__title">Let’s Plan the Next Team Event Together</h4>
-      <span class="survey-card__deadline">Ends in 1 Day</span>
-    </article>
-    <article class="survey-card">
-      <p class="survey-card__category">Health &amp; Wellness</p>
-      <h4 class="survey-card__title">Fit &amp; wellness survey!</h4>
-      <span class="survey-card__deadline">Ends in 2 Days</span>
-    </article>
-    <article class="survey-card">
-      <p class="survey-card__category">Gaming &amp; Entertainment</p>
-      <h4 class="survey-card__title">Gaming habits and favorite games!</h4>
-      <span class="survey-card__deadline">Ends in 3 Days</span>
-    </article>
+    @for (survey of endingSoonSurveys(); track survey.id) {
+      <article class="survey-card">
+        <a class="survey-card__link" [routerLink]="['/', survey.id]">
+          <p class="survey-card__category">{{ getCategory(survey.category) }}</p>
+          <h4 class="survey-card__title">{{ survey.name }}</h4>
+          <span class="survey-card__deadline">{{ getDeadline(survey.endDate) }}</span>
+        </a>
+      </article>
+    } @empty {
+      <p class="survey-card-list__empty">There are no active surveys yet.</p>
+    }
   </div>
 </section>

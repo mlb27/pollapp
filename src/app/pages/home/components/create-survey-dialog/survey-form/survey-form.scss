@@ -43,6 +43,11 @@
     }
   }
 
+  &__field label &__required-marker {
+    color: variables.$primary-orange;
+    font-weight: 700;
+  }
+
   &__input-row {
     display: grid;
     align-items: center;
@@ -186,9 +191,22 @@
     font-weight: 700;
     cursor: pointer;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: variables.$primary-orange;
     }
+
+    &:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+  }
+
+  &__publish-error {
+    align-self: flex-end;
+    margin: functions.px-to-rem(8) 0 0;
+    color: variables.$primary-orange;
+    font-size: functions.px-to-rem(13);
+    font-weight: 700;
   }
 }
 

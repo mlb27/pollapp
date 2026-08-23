@@ -1,0 +1,59 @@
+<div class="survey-detail-page">
+  <app-header [showCreateSurveyButton]="true" (createSurvey)="openCreateSurveyDialog()" />
+
+  <main class="survey-detail-main">
+    @if (survey(); as currentSurvey) {
+      <article class="survey-panel">
+        <header class="survey-panel__header">
+          <div class="survey-panel__metadata">
+            <div>
+              <span class="survey-panel__status">Published</span>
+              <p>Ends on {{ getEndDate(currentSurvey.endDate) }}</p>
+            </div>
+            <p>Category: {{ getCategory(currentSurvey.category) }}</p>
+          </div>
+
+          <h1>{{ currentSurvey.name }}</h1>
+
+          @if (currentSurvey.description) {
+            <p class="survey-panel__description">{{ currentSurvey.description }}</p>
+          }
+        </header>
+
+        <app-survey-ballot
+          [survey]="currentSurvey"
+          [disabled]="ballotDisabled()"
+          (surveyCompleted)="completeSurvey($event)"
+        />
+
+        @if (submitted()) {
+          <p class="survey-panel__success" role="status">Thank you for your answers.</p>
+        }
+
+        @if (voteError()) {
+          <p class="survey-panel__error" role="alert">{{ voteError() }}</p>
+        }
+      </article>
+
+      <app-survey-results [survey]="currentSurvey" />
+    } @else if (isLoading()) {
+      <p class="survey-detail-state" role="status">Loading survey...</p>
+    } @else {
+      <section class="survey-detail-state" aria-labelledby="survey-error-title">
+        <h1 id="survey-error-title">Survey not found</h1>
+        <p>
+          @if (invalidRoute()) {
+            The URL does not contain a valid survey ID.
+          } @else if (errorMessage()) {
+            {{ errorMessage() }}
+          } @else {
+            This survey does not exist or is no longer available.
+          }
+        </p>
+        <a routerLink="/">Back to home</a>
+      </section>
+    }
+  </main>
+</div>
+
+<app-create-survey-dialog />

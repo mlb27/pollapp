@@ -2,6 +2,7 @@
   #dialog
   class="create-survey-dialog"
   aria-labelledby="create-survey-title"
+  (cancel)="handleCancel($event)"
   (close)="resetForm()"
 >
   <div class="create-survey-dialog__frame">
@@ -15,10 +16,11 @@
         class="create-survey-dialog__cancel-button"
         type="button"
         aria-label="Cancel creating the survey"
+        [disabled]="isPublishing()"
         (click)="close()"
       >
         <span>Cancel</span>
-        <span class="create-survey-dialog__close-icon" aria-hidden="true">&times;</span>
+        <span class="create-survey-dialog__close-icon" aria-hidden="true"></span>
       </button>
     </header>
 

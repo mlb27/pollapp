@@ -2,19 +2,8 @@
 @use '../../../styles/variables' as variables;
 
 .home-container {
-  width: min(
-    calc(100% - functions.px-to-rem(32)),
-    functions.px-to-rem(1218)
-  );
+  width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(1218));
   margin-inline: auto;
-}
-
-.home-header {
-  padding-top: functions.px-to-rem(39);
-
-  &__logo {
-    display: block;
-  }
 }
 
 .home-main {

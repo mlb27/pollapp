@@ -1,0 +1,40 @@
+<section class="survey-ballot" aria-label="Survey questions">
+  <div class="survey-ballot__questions">
+    @for (question of survey().questions; track question.id; let questionIndex = $index) {
+      <fieldset class="ballot-question" [disabled]="disabled()">
+        <legend>{{ questionIndex + 1 }}. {{ question.questionText }}</legend>
+
+        @if (question.allowMultipleAnswers) {
+          <p class="ballot-question__hint">More than one answer is possible.</p>
+        }
+
+        <div class="ballot-question__answers">
+          @for (answer of question.answers; track answer.id; let answerIndex = $index) {
+            <label class="ballot-answer">
+              <input
+                type="checkbox"
+                [checked]="isSelected(question.id, answer.id)"
+                [disabled]="disabled()"
+                (change)="toggleAnswer(question, answer.id)"
+              />
+              <span class="ballot-answer__box" aria-hidden="true"></span>
+              <span>
+                <strong>{{ getAnswerLabel(answerIndex) }}</strong>
+                {{ answer.text }}
+              </span>
+            </label>
+          }
+        </div>
+      </fieldset>
+    }
+  </div>
+
+  <button
+    class="survey-ballot__complete-button"
+    type="button"
+    [disabled]="!canSubmit()"
+    (click)="completeSurvey()"
+  >
+    {{ disabled() ? 'Survey closed' : 'Complete survey' }}
+  </button>
+</section>

@@ -2,28 +2,48 @@
   <div class="survey-overview__controls">
     <div class="survey-tabs" role="group" aria-label="Survey status">
       <button
-        class="survey-tabs__button survey-tabs__button--active"
+        class="survey-tabs__button"
         type="button"
-        aria-pressed="true"
+        [class.survey-tabs__button--active]="selectedStatus() === 'active'"
+        [attr.aria-pressed]="selectedStatus() === 'active'"
+        (click)="setStatus('active')"
       >
         Active survey
       </button>
-      <button class="survey-tabs__button" type="button" aria-pressed="false">Past survey</button>
+      <button
+        class="survey-tabs__button"
+        type="button"
+        [class.survey-tabs__button--active]="selectedStatus() === 'past'"
+        [attr.aria-pressed]="selectedStatus() === 'past'"
+        (click)="setStatus('past')"
+      >
+        Past survey
+      </button>
     </div>
 
-    <button class="survey-overview__sort-button" type="button">
-      Sort by categories
+    <label class="survey-overview__category-filter">
+      <span class="visually-hidden">Filter surveys by category</span>
+      <select [value]="selectedCategory()" (change)="setCategory($event)">
+        <option value="all">All categories</option>
+        @for (category of categories(); track category) {
+          <option [value]="category">{{ getCategory(category) }}</option>
+        }
+      </select>
       <span class="survey-overview__sort-icon" aria-hidden="true"></span>
-    </button>
+    </label>
   </div>
 
   <div class="survey-overview__grid">
-    @for (survey of activeSurveys; track survey.id) {
+    @for (survey of visibleSurveys(); track survey.id) {
       <article class="survey-list-card">
-        <p class="survey-list-card__category">{{ survey.category }}</p>
-        <h3 class="survey-list-card__title">{{ survey.title }}</h3>
-        <span class="survey-list-card__deadline">{{ survey.deadline }}</span>
+        <a class="survey-list-card__link" [routerLink]="['/', survey.id]">
+          <p class="survey-list-card__category">{{ getCategory(survey.category) }}</p>
+          <h3 class="survey-list-card__title">{{ survey.name }}</h3>
+          <span class="survey-list-card__deadline">{{ getDeadline(survey.endDate) }}</span>
+        </a>
       </article>
+    } @empty {
+      <p class="survey-overview__empty">No surveys match this selection.</p>
     }
   </div>
 </section>

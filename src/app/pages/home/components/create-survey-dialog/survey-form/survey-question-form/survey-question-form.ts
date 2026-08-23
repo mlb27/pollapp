@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 
 import { trimmedMinLengthValidator } from '../../../../../../shared/validators/form-validators';
+import { getAnswerLabel } from '../../../../../../shared/utils/survey-display';
 import { MAX_SURVEY_ANSWERS } from '../survey-form.constants';
 import { SurveyQuestionGroup } from '../survey-form.types';
 
@@ -81,7 +82,7 @@ export class SurveyQuestionForm {
    * @returns Alphabetic label such as A. or B.
    */
   protected getAnswerLabel(answerIndex: number): string {
-    return `${String.fromCharCode(65 + answerIndex)}.`;
+    return getAnswerLabel(answerIndex);
   }
 
   /**

@@ -30,9 +30,11 @@ export class SurveyForm {
   private readonly surveysService = inject(SurveysService);
 
   public readonly surveyPublished = output<void>();
+  public readonly isPublishing = signal(false);
 
   protected readonly maxQuestions: number = MAX_SURVEY_QUESTIONS;
   protected readonly minimumEndDate: string = this.getLocalDateValue(new Date());
+  protected readonly publishError = signal<string | null>(null);
   protected readonly submitted = signal(false);
   protected readonly surveyForm: SurveyGroup = this.formBuilder.group({
     category: this.formBuilder.control('', Validators.required),
@@ -104,14 +106,12 @@ export class SurveyForm {
     this.submitted.set(true);
     this.surveyForm.markAllAsTouched();
 
-    if (this.surveyForm.invalid) {
+    if (this.surveyForm.invalid || this.isPublishing()) {
       return;
     }
 
-    const survey = new SurveyModel(this.surveyForm.getRawValue());
-
-    await this.surveysService.addSurvey(survey);
-    this.surveyPublished.emit();
+    const survey: SurveyModel = new SurveyModel(this.surveyForm.getRawValue());
+    await this.publishSurvey(survey);
   }
 
   /** Restores the complete create-survey form to its initial state. */
@@ -121,7 +121,25 @@ export class SurveyForm {
     this.resetFirstQuestion();
     this.surveyForm.markAsPristine();
     this.surveyForm.markAsUntouched();
+    this.isPublishing.set(false);
+    this.publishError.set(null);
     this.submitted.set(false);
+  }
+
+  /** Persists one valid survey while guarding against duplicate submissions. */
+  private async publishSurvey(survey: SurveyModel): Promise<void> {
+    this.isPublishing.set(true);
+    this.publishError.set(null);
+
+    try {
+      await this.surveysService.addSurvey(survey);
+      this.isPublishing.set(false);
+      this.surveyPublished.emit();
+    } catch {
+      this.publishError.set('The survey could not be published. Please try again.');
+    } finally {
+      this.isPublishing.set(false);
+    }
   }
 
   /**

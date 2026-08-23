@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-const LOCAL_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+const LOCAL_DATE_PATTERN: RegExp = /^(\d{4})-(\d{2})-(\d{2})$/;
 
 /**
  * Validates the minimum length after surrounding whitespace is removed.
@@ -93,7 +93,7 @@ function parseLocalDate(value: string): Date | null {
   const year: number = Number(parts[1]);
   const monthIndex: number = Number(parts[2]) - 1;
   const day: number = Number(parts[3]);
-  const date = new Date(year, monthIndex, day);
+  const date: Date = new Date(year, monthIndex, day);
 
   return isMatchingDate(date, year, monthIndex, day) ? date : null;
 }
@@ -117,7 +117,7 @@ function isMatchingDate(date: Date, year: number, monthIndex: number, day: numbe
  * @returns Start of the current local day.
  */
 function getStartOfToday(): Date {
-  const today = new Date();
+  const today: Date = new Date();
   today.setHours(0, 0, 0, 0);
 
   return today;

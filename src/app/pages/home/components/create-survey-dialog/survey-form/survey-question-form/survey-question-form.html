@@ -1,7 +1,10 @@
 <fieldset class="survey-question" [formGroup]="question()">
   <legend>
     <span class="survey-question__legend-content">
-      <span>{{ questionIndex() + 1 }}. Question</span>
+      <span>
+        {{ questionIndex() + 1 }}. Question
+        <span class="survey-question__required-marker" aria-hidden="true">*</span>
+      </span>
       <button
         class="survey-question__delete-button"
         type="button"
@@ -40,7 +43,9 @@
   }
 
   <div class="survey-question__answers-heading">
-    <span>Answers</span>
+    <span>
+      Answers <span class="survey-question__required-marker" aria-hidden="true">*</span>
+    </span>
     <label class="survey-question__checkbox">
       <input type="checkbox" formControlName="allowMultipleAnswers" />
       <span>Allow multiple answers.</span>
