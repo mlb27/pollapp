@@ -8,6 +8,22 @@
   min-height: functions.px-to-rem(761);
   color: variables.$primary-purple;
 
+  &__toggle {
+    display: none;
+  }
+
+  &__live-status {
+    position: absolute;
+    width: functions.px-to-rem(1);
+    height: functions.px-to-rem(1);
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
   &__title {
     margin: 0;
     font-size: functions.px-to-rem(26);
@@ -49,6 +65,7 @@
     font-size: functions.px-to-rem(18);
     font-weight: 900;
     line-height: 1.25;
+    overflow-wrap: anywhere;
   }
 
   &__answers {
@@ -65,6 +82,7 @@
   gap: functions.px-to-rem(9);
   color: variables.$primary-purple;
   font-size: functions.px-to-rem(13);
+  overflow-wrap: anywhere;
 
   &__track {
     height: functions.px-to-rem(14);
@@ -84,5 +102,64 @@
   strong {
     color: variables.$primary-orange;
     font-size: functions.px-to-rem(13);
+  }
+}
+
+@media (max-width: 720px) {
+  .survey-results {
+    width: 100%;
+    min-height: 0;
+
+    &__toggle {
+      display: inline-flex;
+      align-items: center;
+      min-height: functions.px-to-rem(44);
+      padding: 0;
+      border: 0;
+      background-color: transparent;
+      color: variables.$primary-purple;
+      gap: functions.px-to-rem(10);
+      font-family: 'Mulish', sans-serif;
+      font-size: functions.px-to-rem(18);
+      font-weight: 700;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: functions.px-to-rem(3) solid variables.$primary-orange;
+        outline-offset: functions.px-to-rem(3);
+      }
+    }
+
+    &__chevron {
+      width: 0;
+      height: 0;
+      border-top: functions.px-to-rem(8) solid currentColor;
+      border-right: functions.px-to-rem(7) solid transparent;
+      border-left: functions.px-to-rem(7) solid transparent;
+      transition: transform 200ms ease-out;
+
+      &--expanded {
+        transform: rotate(180deg);
+      }
+    }
+
+    &__content {
+      margin-top: functions.px-to-rem(32);
+
+      &--collapsed {
+        display: none;
+      }
+    }
+
+    &__empty {
+      margin-top: functions.px-to-rem(64);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .survey-results__chevron,
+  .result-answer__fill {
+    transition: none;
   }
 }

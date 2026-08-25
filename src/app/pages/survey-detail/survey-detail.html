@@ -1,15 +1,28 @@
 <div class="survey-detail-page">
-  <app-header [showCreateSurveyButton]="true" (createSurvey)="openCreateSurveyDialog()" />
+  <app-header
+    [showCreateSurveyButton]="true"
+    [usePurpleLogo]="true"
+    (createSurvey)="openCreateSurveyDialog()"
+  />
 
   <main class="survey-detail-main">
     @if (survey(); as currentSurvey) {
       <article class="survey-panel">
         <header class="survey-panel__header">
+          <div class="survey-panel__status-row">
+            <span class="survey-panel__status">Published</span>
+
+            <a
+              class="survey-panel__close"
+              routerLink="/"
+              aria-label="Close survey and return to home"
+            >
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
           <div class="survey-panel__metadata">
-            <div>
-              <span class="survey-panel__status">Published</span>
-              <p>Ends on {{ getEndDate(currentSurvey.endDate) }}</p>
-            </div>
+            <p>Ends on {{ getEndDate(currentSurvey.endDate) }}</p>
             <p>Category: {{ getCategory(currentSurvey.category) }}</p>
           </div>
 

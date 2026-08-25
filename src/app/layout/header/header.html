@@ -1,6 +1,10 @@
 <header class="app-header">
   <a class="app-header__home-link" routerLink="/" aria-label="Back to Poll App home">
-    <img class="app-header__logo" src="/img/pollapp_orange.png" alt="Poll App" />
+    <img
+      class="app-header__logo"
+      [src]="usePurpleLogo() ? '/img/pollapp_purple.png' : '/img/pollapp_orange.png'"
+      alt="Poll App"
+    />
   </a>
 
   @if (showCreateSurveyButton()) {

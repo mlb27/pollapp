@@ -26,6 +26,10 @@
     flex-direction: column;
   }
 
+  &__mobile-header {
+    display: none;
+  }
+
   &__header {
     display: flex;
     align-items: center;
@@ -105,6 +109,56 @@
   }
 }
 
+.create-survey-confirmation {
+  position: fixed;
+  right: functions.px-to-rem(40);
+  bottom: functions.px-to-rem(40);
+  z-index: 20;
+  box-sizing: border-box;
+  display: flex;
+  width: min(calc(100% - functions.px-to-rem(32)), functions.px-to-rem(356));
+  min-height: functions.px-to-rem(104);
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: functions.px-to-rem(22) functions.px-to-rem(24);
+  border-radius: functions.px-to-rem(5) functions.px-to-rem(50) functions.px-to-rem(5)
+    functions.px-to-rem(5);
+  background-color: #ffe8d2;
+  color: variables.$primary-purple;
+
+  &__message {
+    margin: 0;
+    font-family: 'Nerko One', cursive;
+    font-size: functions.px-to-rem(24);
+  }
+
+  &__close-button {
+    position: relative;
+    display: grid;
+    width: functions.px-to-rem(32);
+    height: functions.px-to-rem(32);
+    flex: 0 0 auto;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+
+    &:focus-visible {
+      border-radius: functions.px-to-rem(4);
+      outline: functions.px-to-rem(3) solid variables.$primary-purple;
+      outline-offset: functions.px-to-rem(2);
+    }
+  }
+
+  &__close-icon {
+    &::before,
+    &::after {
+      background-color: variables.$primary-purple;
+    }
+  }
+}
+
 @media (max-width: 900px) {
   .create-survey-dialog {
     padding: functions.px-to-rem(30) functions.px-to-rem(24);
@@ -112,27 +166,6 @@
 
     &__title {
       font-size: functions.px-to-rem(42);
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .create-survey-dialog {
-    width: calc(100% - functions.px-to-rem(16));
-    height: calc(100svh - functions.px-to-rem(16));
-    padding: functions.px-to-rem(24) functions.px-to-rem(16);
-
-    &__header {
-      align-items: flex-start;
-      gap: functions.px-to-rem(16);
-    }
-
-    &__title {
-      font-size: functions.px-to-rem(36);
-    }
-
-    &__cancel-button span:first-child {
-      display: none;
     }
   }
 }

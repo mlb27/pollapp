@@ -10,5 +10,6 @@ import { RouterLink } from '@angular/router';
 })
 export class Header {
   public readonly showCreateSurveyButton: InputSignal<boolean> = input(false);
+  public readonly usePurpleLogo: InputSignal<boolean> = input(false);
   public readonly createSurvey: OutputEmitterRef<void> = output<void>();
 }

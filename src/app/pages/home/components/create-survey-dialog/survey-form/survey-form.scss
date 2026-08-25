@@ -201,6 +201,10 @@
     }
   }
 
+  &__publish-icon {
+    display: none;
+  }
+
   &__publish-error {
     align-self: flex-end;
     margin: functions.px-to-rem(8) 0 0;
@@ -225,25 +229,6 @@
 
     &__questions {
       margin-top: functions.px-to-rem(24);
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .survey-form {
-    margin-top: functions.px-to-rem(24);
-
-    &__content {
-      padding: functions.px-to-rem(24) functions.px-to-rem(16);
-    }
-
-    &__details-row {
-      grid-template-columns: 1fr;
-      row-gap: functions.px-to-rem(16);
-    }
-
-    &__publish-button {
-      margin-top: functions.px-to-rem(20);
     }
   }
 }

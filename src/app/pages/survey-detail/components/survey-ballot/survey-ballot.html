@@ -12,7 +12,8 @@
           @for (answer of question.answers; track answer.id; let answerIndex = $index) {
             <label class="ballot-answer">
               <input
-                type="checkbox"
+                [type]="question.allowMultipleAnswers ? 'checkbox' : 'radio'"
+                [name]="'question-' + question.id"
                 [checked]="isSelected(question.id, answer.id)"
                 [disabled]="disabled()"
                 (change)="toggleAnswer(question, answer.id)"
@@ -35,6 +36,12 @@
     [disabled]="!canSubmit()"
     (click)="completeSurvey()"
   >
-    {{ buttonLabel() }}
+    <span class="survey-ballot__desktop-button-label">{{ buttonLabel() }}</span>
+    <span class="survey-ballot__mobile-button-label">
+      {{ buttonLabel() === 'Complete survey' ? 'Complete' : buttonLabel() }}
+    </span>
+    @if (buttonLabel() === 'Complete survey' || buttonLabel() === 'Survey completed') {
+      <span class="survey-ballot__complete-icon" aria-hidden="true"></span>
+    }
   </button>
 </section>

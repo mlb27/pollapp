@@ -1,4 +1,4 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, input, signal, Signal, WritableSignal } from '@angular/core';
 
 import { Survey, SurveyAnswer, SurveyQuestion } from '../../../../shared/interfaces/survey';
 import { getAnswerLetter as getSurveyAnswerLetter } from '../../../../shared/utils/survey-display';
@@ -13,11 +13,23 @@ import { getAnswerLetter as getSurveyAnswerLetter } from '../../../../shared/uti
 export class SurveyResults {
   public readonly survey = input.required<Survey>();
 
+  protected readonly isExpanded: WritableSignal<boolean> = signal(false);
   protected readonly hasVotes: Signal<boolean> = computed((): boolean =>
     this.survey().questions.some(
       (question: SurveyQuestion): boolean => this.getQuestionVotes(question) > 0,
     ),
   );
+  protected readonly totalVotes: Signal<number> = computed((): number =>
+    this.survey().questions.reduce(
+      (total: number, question: SurveyQuestion): number => total + this.getQuestionVotes(question),
+      0,
+    ),
+  );
+
+  /** Opens or closes the result charts on compact screens. */
+  protected toggleResults(): void {
+    this.isExpanded.update((isExpanded: boolean): boolean => !isExpanded);
+  }
 
   /** Converts an answer index to its alphabetic result label. */
   protected getAnswerLabel(answerIndex: number): string {
@@ -29,6 +41,18 @@ export class SurveyResults {
     const totalVotes: number = this.getQuestionVotes(question);
 
     return totalVotes === 0 ? 0 : Math.round((answer.votes / totalVotes) * 100);
+  }
+
+  /** Returns a complete accessible label for one visual result row. */
+  protected getResultLabel(
+    answer: SurveyAnswer,
+    question: SurveyQuestion,
+    answerIndex: number,
+  ): string {
+    const answerLabel: string = this.getAnswerLabel(answerIndex);
+    const percentage: number = this.getPercentage(answer, question);
+
+    return `${answerLabel} ${answer.text}: ${percentage} percent`;
   }
 
   /** Adds all answer votes belonging to one question. */

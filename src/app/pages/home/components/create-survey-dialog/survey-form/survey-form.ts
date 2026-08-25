@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, ElementRef, inject, output, signal } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -24,14 +24,15 @@ import { SurveyGroup, SurveyQuestionGroup } from './survey-form.types';
 @Component({
   imports: [ReactiveFormsModule, SurveyQuestionForm],
   selector: 'app-survey-form',
-  styleUrl: './survey-form.scss',
+  styleUrls: ['./survey-form.scss', './survey-form.mobile.scss'],
   templateUrl: './survey-form.html',
 })
 export class SurveyForm {
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly surveysService = inject(SurveysService);
 
-  public readonly surveyPublished = output<void>();
+  public readonly surveyPublished = output<number>();
   public readonly isPublishing = signal(false);
 
   protected readonly maxQuestions: number = MAX_SURVEY_QUESTIONS;
@@ -109,7 +110,12 @@ export class SurveyForm {
     this.submitted.set(true);
     this.surveyForm.markAllAsTouched();
 
-    if (this.surveyForm.invalid || this.isPublishing()) {
+    if (this.surveyForm.invalid) {
+      this.focusFirstInvalidControl();
+      return;
+    }
+
+    if (this.isPublishing()) {
       return;
     }
 
@@ -135,14 +141,21 @@ export class SurveyForm {
     this.publishError.set(null);
 
     try {
-      await this.surveysService.addSurvey(survey);
+      const surveyId: number = await this.surveysService.addSurvey(survey);
       this.isPublishing.set(false);
-      this.surveyPublished.emit();
+      this.surveyPublished.emit(surveyId);
     } catch {
       this.publishError.set('The survey could not be published. Please try again.');
     } finally {
       this.isPublishing.set(false);
     }
+  }
+
+  /** Moves keyboard focus to the first invalid field after validation feedback is rendered. */
+  private focusFirstInvalidControl(): void {
+    setTimeout((): void => {
+      this.elementRef.nativeElement.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+    });
   }
 
   /**

@@ -54,6 +54,12 @@
     color: inherit;
     text-decoration: none;
     cursor: pointer;
+
+    &:focus-visible {
+      border-radius: 0 functions.px-to-rem(80) 0 0;
+      outline: functions.px-to-rem(3) solid variables.$primary-orange;
+      outline-offset: functions.px-to-rem(-3);
+    }
   }
 
   &__category {
@@ -66,6 +72,7 @@
     margin: functions.px-to-rem(8) 0 0;
     font-size: functions.px-to-rem(26);
     font-weight: 700;
+    overflow-wrap: anywhere;
   }
 
   &__deadline {
@@ -86,6 +93,92 @@
     line-height: functions.px-to-rem(18);
     white-space: nowrap;
     transition: background-color 250ms ease-out;
+  }
+}
+
+.survey-card:focus-within {
+  background-color: variables.$bg-card-hover;
+
+  .survey-card__deadline {
+    background-color: variables.$primary-orange;
+  }
+}
+
+@media (max-width: 1074px) {
+  .survey-card-list {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, functions.px-to-rem(321)), functions.px-to-rem(321))
+    );
+  }
+
+  .survey-card {
+    width: functions.px-to-rem(321);
+  }
+}
+
+@media (max-width: 720px) {
+  :host {
+    width: 100%;
+    margin-top: functions.px-to-rem(40);
+  }
+
+  .ending-soon-surveys__title {
+    font-size: functions.px-to-rem(24);
+  }
+
+  .survey-card-list {
+    display: flex;
+    gap: functions.px-to-rem(24);
+    margin-top: functions.px-to-rem(24);
+    padding-bottom: functions.px-to-rem(8);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: inline proximity;
+    scrollbar-color: variables.$secondary-orange transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      height: functions.px-to-rem(4);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: functions.px-to-rem(2);
+      background-color: variables.$secondary-orange;
+    }
+
+    &__empty {
+      flex: 0 0 100%;
+    }
+  }
+
+  .survey-card {
+    display: flex;
+    flex: 0 0 functions.px-to-rem(250);
+    width: functions.px-to-rem(250);
+    height: auto;
+    min-height: functions.px-to-rem(233);
+    scroll-snap-align: start;
+
+    &__link {
+      position: relative;
+      inset: auto;
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      min-height: functions.px-to-rem(233);
+      padding: functions.px-to-rem(24) functions.px-to-rem(16);
+    }
+
+    &__title {
+      line-height: functions.px-to-rem(30);
+    }
+
+    &__deadline {
+      position: static;
+      align-self: flex-start;
+      margin-top: auto;
+    }
   }
 }
 

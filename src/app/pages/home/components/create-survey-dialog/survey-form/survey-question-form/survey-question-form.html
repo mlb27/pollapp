@@ -31,9 +31,14 @@
     required
     [attr.aria-label]="'Question ' + (questionIndex() + 1)"
     [attr.aria-invalid]="shouldShowError(question().controls.questionText)"
+    [attr.aria-describedby]="
+      shouldShowError(question().controls.questionText)
+        ? 'survey-question-error-' + questionIndex()
+        : null
+    "
   />
   @if (shouldShowError(question().controls.questionText)) {
-    <p class="survey-question__error">
+    <p [id]="'survey-question-error-' + questionIndex()" class="survey-question__error">
       @if (question().controls.questionText.hasError('minlength')) {
         Use at least 3 characters.
       } @else {
@@ -63,9 +68,19 @@
             required
             [attr.aria-label]="'Answer ' + getAnswerLabel(answerIndex)"
             [attr.aria-invalid]="shouldShowError(answer)"
+            [attr.aria-describedby]="
+              shouldShowError(answer)
+                ? 'survey-answer-error-' + questionIndex() + '-' + answerIndex
+                : null
+            "
           />
           @if (shouldShowError(answer)) {
-            <p class="survey-question__error">Please enter an answer.</p>
+            <p
+              [id]="'survey-answer-error-' + questionIndex() + '-' + answerIndex"
+              class="survey-question__error"
+            >
+              Please enter an answer.
+            </p>
           }
         </div>
         <button

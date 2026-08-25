@@ -1,0 +1,112 @@
+@use '../../../../../../styles/functions';
+
+@media (max-width: 600px) {
+  .survey-form {
+    margin-top: functions.px-to-rem(42);
+
+    &__content {
+      overflow: visible;
+      padding: functions.px-to-rem(48) functions.px-to-rem(10) functions.px-to-rem(62);
+      border-top-right-radius: functions.px-to-rem(70);
+      row-gap: functions.px-to-rem(24);
+    }
+
+    &__general-fields {
+      display: grid;
+      row-gap: functions.px-to-rem(24);
+    }
+
+    &__field {
+      display: grid;
+      min-width: 0;
+      grid-template-columns: minmax(0, 1fr) functions.px-to-rem(26);
+
+      label {
+        margin-bottom: functions.px-to-rem(8);
+        font-size: functions.px-to-rem(18);
+        grid-column: 1;
+      }
+
+      > select {
+        grid-column: 1 / -1;
+      }
+    }
+
+    &__input-row {
+      display: contents;
+
+      input,
+      textarea {
+        grid-column: 1 / -1;
+      }
+
+      input {
+        height: functions.px-to-rem(40);
+      }
+
+      textarea {
+        height: functions.px-to-rem(116);
+      }
+
+      .survey-form__delete-button {
+        align-self: start;
+        grid-row: 1;
+        grid-column: 2;
+      }
+    }
+
+    &__error {
+      grid-column: 1 / -1;
+    }
+
+    &__details-row {
+      display: flex;
+      margin-top: 0;
+      flex-direction: column;
+      row-gap: functions.px-to-rem(24);
+    }
+
+    &__field--category {
+      order: -1;
+
+      select {
+        height: functions.px-to-rem(40);
+        font-size: functions.px-to-rem(16);
+      }
+    }
+
+    &__questions {
+      margin-top: functions.px-to-rem(40);
+      gap: functions.px-to-rem(52);
+    }
+
+    &__add-question-slot {
+      justify-content: center;
+      margin-top: functions.px-to-rem(24);
+    }
+
+    &__publish-button {
+      display: inline-flex;
+      width: functions.px-to-rem(136);
+      align-items: center;
+      align-self: center;
+      justify-content: center;
+      gap: functions.px-to-rem(14);
+      margin-top: functions.px-to-rem(52);
+    }
+
+    &__publish-icon {
+      display: block;
+      width: functions.px-to-rem(10);
+      height: functions.px-to-rem(18);
+      border-right: functions.px-to-rem(3) solid currentColor;
+      border-bottom: functions.px-to-rem(3) solid currentColor;
+      transform: translateY(functions.px-to-rem(-2)) rotate(40deg);
+    }
+
+    &__publish-error {
+      align-self: center;
+      text-align: center;
+    }
+  }
+}

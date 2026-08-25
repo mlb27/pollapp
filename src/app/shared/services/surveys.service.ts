@@ -59,9 +59,9 @@ export class SurveysService implements OnDestroy {
    * Inserts a survey first and then its associated questions.
    *
    * @param survey Validated survey model from the create-survey form.
-   * @returns Promise resolved after survey and questions were inserted.
+   * @returns Database ID of the inserted survey.
    */
-  public async addSurvey(survey: SurveyModel): Promise<void> {
+  public async addSurvey(survey: SurveyModel): Promise<number> {
     const supabase: SupabaseClient = await this.getSupabaseClient();
     const cleanSurvey: SurveyDraft = survey.getCleanAddJson();
     const surveyRow: SurveyInsertRow = this.createSurveyRow(cleanSurvey);
@@ -71,8 +71,11 @@ export class SurveysService implements OnDestroy {
       throw error;
     }
 
-    await this.addQuestions(Number(data.id), cleanSurvey.questions);
+    const surveyId: number = Number(data.id);
+    await this.addQuestions(surveyId, cleanSurvey.questions);
     await this.getAllSurveys();
+
+    return surveyId;
   }
 
   /** Loads all survey summaries used on the home page. */

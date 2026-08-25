@@ -13,6 +13,9 @@
             minlength="3"
             required
             [attr.aria-invalid]="showError(surveyForm.controls.name)"
+            [attr.aria-describedby]="
+              showError(surveyForm.controls.name) ? 'survey-name-error' : null
+            "
           />
           <button
             class="survey-form__delete-button"
@@ -30,7 +33,7 @@
           </button>
         </div>
         @if (showError(surveyForm.controls.name)) {
-          <p class="survey-form__error">
+          <p id="survey-name-error" class="survey-form__error">
             @if (surveyForm.controls.name.hasError('minlength')) {
               Use at least 3 characters.
             } @else {
@@ -53,6 +56,9 @@
               [min]="minimumEndDate"
               required
               [attr.aria-invalid]="showError(surveyForm.controls.endDate)"
+              [attr.aria-describedby]="
+                showError(surveyForm.controls.endDate) ? 'survey-end-date-error' : null
+              "
             />
             <button
               class="survey-form__delete-button"
@@ -70,7 +76,7 @@
             </button>
           </div>
           @if (showError(surveyForm.controls.endDate)) {
-            <p class="survey-form__error">
+            <p id="survey-end-date-error" class="survey-form__error">
               @if (surveyForm.controls.endDate.hasError('required')) {
                 Please choose an end date.
               } @else if (surveyForm.controls.endDate.hasError('pastDate')) {
@@ -91,6 +97,9 @@
             formControlName="category"
             required
             [attr.aria-invalid]="showError(surveyForm.controls.category)"
+            [attr.aria-describedby]="
+              showError(surveyForm.controls.category) ? 'survey-category-error' : null
+            "
           >
             <option value="" disabled>Select category</option>
             @for (category of categories; track category.value) {
@@ -98,7 +107,7 @@
             }
           </select>
           @if (showError(surveyForm.controls.category)) {
-            <p class="survey-form__error">Please choose a category.</p>
+            <p id="survey-category-error" class="survey-form__error">Please choose a category.</p>
           }
         </div>
       </div>
@@ -160,7 +169,8 @@
     [disabled]="isPublishing()"
     [attr.aria-busy]="isPublishing()"
   >
-    Publish
+    <span>Publish</span>
+    <span class="survey-form__publish-icon" aria-hidden="true"></span>
   </button>
 
   @if (publishError()) {

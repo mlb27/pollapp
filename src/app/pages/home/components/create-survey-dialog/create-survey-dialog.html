@@ -5,6 +5,16 @@
   (cancel)="handleCancel($event)"
   (close)="resetForm()"
 >
+  <div class="create-survey-dialog__mobile-header">
+    <img
+      class="create-survey-dialog__mobile-logo"
+      src="/img/pollapp_orange.png"
+      alt="Poll App"
+      width="119"
+      height="50"
+    />
+  </div>
+
   <div class="create-survey-dialog__frame">
     <header class="create-survey-dialog__header">
       <div>
@@ -24,6 +34,30 @@
       </button>
     </header>
 
-    <app-survey-form (surveyPublished)="close()" />
+    <app-survey-form (surveyPublished)="handleSurveyPublished($event)" />
   </div>
 </dialog>
+
+@if (publishConfirmationVisible()) {
+  <aside class="create-survey-confirmation">
+    <p
+      class="create-survey-confirmation__message"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      Your survey is now published!
+    </p>
+    <button
+      class="create-survey-confirmation__close-button"
+      type="button"
+      aria-label="Close publish confirmation"
+      (click)="dismissPublishConfirmation()"
+    >
+      <span
+        class="create-survey-dialog__close-icon create-survey-confirmation__close-icon"
+        aria-hidden="true"
+      ></span>
+    </button>
+  </aside>
+}

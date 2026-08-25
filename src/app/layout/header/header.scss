@@ -48,3 +48,9 @@
     transform: translateY(functions.px-to-rem(-2));
   }
 }
+
+@media (max-width: 720px) {
+  .app-header__create-button {
+    display: none;
+  }
+}
