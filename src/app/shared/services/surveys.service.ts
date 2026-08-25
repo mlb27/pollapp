@@ -325,7 +325,11 @@ export class SurveysService implements OnDestroy {
       (channel: RealtimeChannel | undefined): channel is RealtimeChannel => Boolean(channel),
     );
 
-    await Promise.all(channels.map((channel: RealtimeChannel) => supabase.removeChannel(channel)));
+    await Promise.all(
+      channels.map((channel: RealtimeChannel): ReturnType<SupabaseClient['removeChannel']> =>
+        supabase.removeChannel(channel),
+      ),
+    );
   }
 
   /** Converts one database row to the summary used by survey lists. */
