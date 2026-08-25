@@ -93,9 +93,9 @@
             [attr.aria-invalid]="showError(surveyForm.controls.category)"
           >
             <option value="" disabled>Select category</option>
-            <option value="team-activities">Team activities</option>
-            <option value="health-wellness">Health &amp; Wellness</option>
-            <option value="gaming-entertainment">Gaming &amp; Entertainment</option>
+            @for (category of categories; track category.value) {
+              <option [value]="category.value">{{ category.label }}</option>
+            }
           </select>
           @if (showError(surveyForm.controls.category)) {
             <p class="survey-form__error">Please choose a category.</p>

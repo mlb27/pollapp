@@ -5,6 +5,12 @@ export interface SurveyAnswer {
   votes: number;
 }
 
+/** Select-option value and readable label for one survey category. */
+export interface SurveyCategoryOption {
+  label: string;
+  value: string;
+}
+
 /** One question entered while a survey is created. */
 export interface SurveyQuestionDraft {
   allowMultipleAnswers: boolean;

@@ -1,16 +1,14 @@
-import { SurveySummary } from '../interfaces/survey';
+import { SURVEY_CATEGORIES } from '../constants/survey-categories';
+import { SurveyCategoryOption, SurveySummary } from '../interfaces/survey';
 
 const DAY_IN_MILLISECONDS: number = 86_400_000;
 const FIRST_ANSWER_CHARACTER_CODE: number = 65;
-const CATEGORY_LABELS: Readonly<Record<string, string>> = {
-  'gaming-entertainment': 'Gaming & Entertainment',
-  'health-wellness': 'Health & Wellness',
-  'team-activities': 'Team activities',
-};
-
 /** Returns the readable label for a stored category value. */
 export function getCategoryLabel(category: string): string {
-  return CATEGORY_LABELS[category] ?? category;
+  return (
+    SURVEY_CATEGORIES.find((option: SurveyCategoryOption): boolean => option.value === category)
+      ?.label ?? category
+  );
 }
 
 /** Returns whether a survey's final calendar day has passed. */

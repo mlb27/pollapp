@@ -12,6 +12,8 @@ import {
   notPastDateValidator,
   trimmedMinLengthValidator,
 } from '../../../../../shared/validators/form-validators';
+import { SURVEY_CATEGORIES } from '../../../../../shared/constants/survey-categories';
+import { SurveyCategoryOption } from '../../../../../shared/interfaces/survey';
 import { SurveyModel } from '../../../../../shared/models/survey.model';
 import { SurveysService } from '../../../../../shared/services/surveys.service';
 import { SurveyQuestionForm } from './survey-question-form/survey-question-form';
@@ -33,6 +35,7 @@ export class SurveyForm {
   public readonly isPublishing = signal(false);
 
   protected readonly maxQuestions: number = MAX_SURVEY_QUESTIONS;
+  protected readonly categories: readonly SurveyCategoryOption[] = SURVEY_CATEGORIES;
   protected readonly minimumEndDate: string = this.getLocalDateValue(new Date());
   protected readonly publishError = signal<string | null>(null);
   protected readonly submitted = signal(false);
