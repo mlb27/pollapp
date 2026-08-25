@@ -35,6 +35,6 @@
     [disabled]="!canSubmit()"
     (click)="completeSurvey()"
   >
-    {{ disabled() ? 'Survey closed' : 'Complete survey' }}
+    {{ buttonLabel() }}
   </button>
 </section>

@@ -11,6 +11,7 @@ import { getAnswerLabel } from '../../../../shared/utils/survey-display';
   styleUrl: './survey-ballot.scss',
 })
 export class SurveyBallot {
+  public readonly buttonLabel = input('Complete survey');
   public readonly disabled = input(false);
   public readonly survey = input.required<Survey>();
   public readonly surveyCompleted = output<SurveyVoteSelection[]>();

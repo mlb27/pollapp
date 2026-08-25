@@ -10,9 +10,11 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
+import { fromEvent } from 'rxjs';
 
 import { Header } from '../../layout/header/header';
 import { Survey, SurveyVoteSelection } from '../../shared/interfaces/survey';
+import { SurveyParticipationService } from '../../shared/services/survey-participation.service';
 import { SurveysService } from '../../shared/services/surveys.service';
 import {
   formatSurveyDate,
@@ -33,6 +35,7 @@ import { SurveyResults } from './components/survey-results/survey-results';
 export class SurveyDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly participationService = inject(SurveyParticipationService);
   private readonly surveysService = inject(SurveysService);
   private readonly createSurveyDialog = viewChild(CreateSurveyDialog);
 
@@ -40,6 +43,7 @@ export class SurveyDetail implements OnInit {
   protected readonly isLoading = this.surveysService.isLoading;
   protected readonly survey = this.surveysService.selectedSurvey;
   protected readonly invalidRoute = signal(false);
+  protected readonly hasParticipated = signal(false);
   protected readonly isSubmitting = signal(false);
   protected readonly submitted = signal(false);
   protected readonly voteError = signal<string | null>(null);
@@ -49,14 +53,26 @@ export class SurveyDetail implements OnInit {
     return survey ? isPastSurvey(survey) : false;
   });
   protected readonly ballotDisabled: Signal<boolean> = computed(
-    (): boolean => this.isPast() || this.isSubmitting() || this.submitted(),
+    (): boolean => this.isPast() || this.isSubmitting() || this.hasParticipated(),
   );
+  protected readonly ballotButtonLabel: Signal<string> = computed((): string => {
+    if (this.isSubmitting()) {
+      return 'Submitting...';
+    }
+
+    if (this.isPast()) {
+      return 'Survey closed';
+    }
+
+    return this.hasParticipated() ? 'Survey completed' : 'Complete survey';
+  });
 
   /** Loads the survey referenced by the active numeric route parameter. */
   public ngOnInit(): void {
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((parameters: ParamMap): void => this.loadRouteSurvey(parameters.get('id')));
+    this.subscribeToParticipationChanges();
   }
 
   /** Loads and resets the detail page for one route ID value. */
@@ -70,12 +86,14 @@ export class SurveyDetail implements OnInit {
       return;
     }
 
+    this.hasParticipated.set(this.participationService.hasParticipated(surveyId));
     void this.surveysService.getSurveyById(surveyId);
   }
 
   /** Clears feedback that belongs to a previously displayed survey. */
   private resetRouteState(): void {
     this.invalidRoute.set(false);
+    this.hasParticipated.set(false);
     this.submitted.set(false);
     this.voteError.set(null);
   }
@@ -97,23 +115,52 @@ export class SurveyDetail implements OnInit {
 
   /** Persists the participant's selected answers. */
   protected async completeSurvey(selections: SurveyVoteSelection[]): Promise<void> {
-    if (this.ballotDisabled()) {
+    const surveyId: number | undefined = this.survey()?.id;
+    this.refreshParticipation();
+
+    if (!surveyId || this.ballotDisabled()) {
       return;
     }
 
     this.startSubmission();
-    await this.persistSelections(selections);
+    await this.persistSelections(selections, surveyId);
   }
 
   /** Completes one active vote request and updates its feedback signals. */
-  private async persistSelections(selections: SurveyVoteSelection[]): Promise<void> {
+  private async persistSelections(
+    selections: SurveyVoteSelection[],
+    surveyId: number,
+  ): Promise<void> {
     try {
       await this.surveysService.submitSurveyVotes(selections);
+      this.markParticipation(surveyId);
       this.submitted.set(true);
     } catch (error: unknown) {
       this.voteError.set(this.getVoteError(error));
     } finally {
       this.isSubmitting.set(false);
+    }
+  }
+
+  /** Marks the submitted survey as completed in this browser. */
+  private markParticipation(surveyId: number): void {
+    this.participationService.markAsParticipated(surveyId);
+    this.hasParticipated.set(true);
+  }
+
+  /** Synchronizes completion changes made in another browser tab. */
+  private subscribeToParticipationChanges(): void {
+    fromEvent<StorageEvent>(window, 'storage')
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((): void => this.refreshParticipation());
+  }
+
+  /** Refreshes the current participation state from localStorage. */
+  private refreshParticipation(): void {
+    const surveyId: number | undefined = this.survey()?.id;
+
+    if (surveyId) {
+      this.hasParticipated.set(this.participationService.hasParticipated(surveyId));
     }
   }
 

@@ -132,7 +132,14 @@ export class SurveysService implements OnDestroy {
       (question: SurveyQuestion): Promise<void> => this.updateQuestionVotes(question, selections),
     );
     await Promise.all(updates);
-    await this.getSurveyById(survey.id);
+    await this.refreshSubmittedSurvey(survey.id);
+  }
+
+  /** Reloads vote results only while the submitted survey is still selected. */
+  private async refreshSubmittedSurvey(surveyId: number): Promise<void> {
+    if (this.selectedSurvey()?.id === surveyId) {
+      await this.getSurveyById(surveyId);
+    }
   }
 
   /** Loads initial survey data before attaching realtime channels. */
