@@ -13,6 +13,7 @@ import { getAnswerLabel } from '../../../../shared/utils/survey-display';
 export class SurveyBallot {
   public readonly buttonLabel = input('Complete survey');
   public readonly disabled = input(false);
+  public readonly savedSelections = input<SurveyVoteSelection[]>([]);
   public readonly survey = input.required<Survey>();
   public readonly surveyCompleted = output<SurveyVoteSelection[]>();
 
@@ -86,6 +87,16 @@ export class SurveyBallot {
 
   /** Returns a question's selected answer IDs without exposing mutable state. */
   private getSelectedIds(questionId: number): number[] {
-    return this.selections()[questionId] ?? [];
+    const currentSelections: Record<number, number[]> = this.selections();
+
+    if (questionId in currentSelections) {
+      return currentSelections[questionId];
+    }
+
+    return (
+      this.savedSelections().find(
+        (selection: SurveyVoteSelection): boolean => selection.questionId === questionId,
+      )?.answerIds ?? []
+    );
   }
 }

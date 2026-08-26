@@ -1,59 +1,68 @@
-# PollApp
+# Poll App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.4.
+Eine responsive Umfrage-Anwendung zum Erstellen, Teilen und Auswerten von Surveys, umgesetzt mit Angular und Supabase.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Erstellen von Umfragen mit bis zu vier Fragen und fünf Antwortmöglichkeiten
+- Auswahl zwischen Single- und Multiple-Choice-Fragen
+- Übersicht aktiver, bald endender und abgeschlossener Umfragen
+- Filterung nach Status und Kategorie
+- Live-Auswertung über Supabase Realtime
+- Schutz vor mehrfacher Teilnahme im selben Browser
+- Gespeicherte und weiterhin sichtbare Antwortauswahl nach der Teilnahme
+- Responsive Darstellung für Desktop, Tablet und mobile Geräte
 
-```bash
-ng serve
+## Lokal starten
+
+1. Repository klonen:
+
+   ```bash
+   git clone https://github.com/mlb27/pollapp.git
+   ```
+
+2. In den Projektordner wechseln und Abhängigkeiten installieren:
+
+   ```bash
+   cd pollapp
+   npm install
+   ```
+
+3. Entwicklungsserver starten:
+
+   ```bash
+   npm start
+   ```
+
+4. `http://localhost:4200` im Browser öffnen.
+
+Für einen Produktions-Build kann `npm run build` verwendet werden.
+
+## Datenspeicherung
+
+Umfragen, Fragen und Stimmen werden in Supabase gespeichert. Änderungen an den Stimmen werden über Realtime-Abonnements direkt in der Auswertung aktualisiert. Die Information über eine bereits erfolgte Teilnahme und die dabei gewählten Antworten werden ausschliesslich im LocalStorage des jeweiligen Browsers gespeichert.
+
+## Technologien
+
+- Angular
+- TypeScript
+- SCSS
+- Supabase Database und Realtime
+- Reactive Forms
+
+## Projektstruktur
+
+```text
+src/app/
+|-- layout/       # Gemeinsamer Seiten-Header
+|-- pages/        # Home- und Survey-Detailansicht
+`-- shared/       # Interfaces, Models, Services und Hilfsfunktionen
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Projektkontext
 
-## Code scaffolding
+Dieses Projekt wurde im Rahmen der Weiterbildung bei der **Developer Akademie** erstellt.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Autor
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Moritz Böhm

@@ -37,6 +37,7 @@
           [survey]="currentSurvey"
           [disabled]="ballotDisabled()"
           [buttonLabel]="ballotButtonLabel()"
+          [savedSelections]="savedSelections()"
           (surveyCompleted)="completeSurvey($event)"
         />
 

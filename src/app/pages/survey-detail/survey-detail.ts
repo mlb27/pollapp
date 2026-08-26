@@ -44,6 +44,7 @@ export class SurveyDetail implements OnInit {
   protected readonly survey = this.surveysService.selectedSurvey;
   protected readonly invalidRoute = signal(false);
   protected readonly hasParticipated = signal(false);
+  protected readonly savedSelections = signal<SurveyVoteSelection[]>([]);
   protected readonly isSubmitting = signal(false);
   protected readonly submitted = signal(false);
   protected readonly voteError = signal<string | null>(null);
@@ -86,7 +87,7 @@ export class SurveyDetail implements OnInit {
       return;
     }
 
-    this.hasParticipated.set(this.participationService.hasParticipated(surveyId));
+    this.refreshParticipation(surveyId);
     void this.surveysService.getSurveyById(surveyId);
   }
 
@@ -94,6 +95,7 @@ export class SurveyDetail implements OnInit {
   private resetRouteState(): void {
     this.invalidRoute.set(false);
     this.hasParticipated.set(false);
+    this.savedSelections.set([]);
     this.submitted.set(false);
     this.voteError.set(null);
   }
@@ -133,7 +135,7 @@ export class SurveyDetail implements OnInit {
   ): Promise<void> {
     try {
       await this.surveysService.submitSurveyVotes(selections);
-      this.markParticipation(surveyId);
+      this.markParticipation(surveyId, selections);
       this.submitted.set(true);
     } catch (error: unknown) {
       this.voteError.set(this.getVoteError(error));
@@ -143,9 +145,10 @@ export class SurveyDetail implements OnInit {
   }
 
   /** Marks the submitted survey as completed in this browser. */
-  private markParticipation(surveyId: number): void {
-    this.participationService.markAsParticipated(surveyId);
+  private markParticipation(surveyId: number, selections: SurveyVoteSelection[]): void {
+    this.participationService.markAsParticipated(surveyId, selections);
     this.hasParticipated.set(true);
+    this.savedSelections.set(selections);
   }
 
   /** Synchronizes completion changes made in another browser tab. */
@@ -156,11 +159,12 @@ export class SurveyDetail implements OnInit {
   }
 
   /** Refreshes the current participation state from localStorage. */
-  private refreshParticipation(): void {
-    const surveyId: number | undefined = this.survey()?.id;
+  private refreshParticipation(routeSurveyId?: number): void {
+    const surveyId: number | undefined = routeSurveyId ?? this.survey()?.id;
 
     if (surveyId) {
       this.hasParticipated.set(this.participationService.hasParticipated(surveyId));
+      this.savedSelections.set(this.participationService.getSelections(surveyId));
     }
   }
 
