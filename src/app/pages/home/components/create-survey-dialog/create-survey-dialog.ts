@@ -1,11 +1,11 @@
 import { Component, ElementRef, inject, signal, viewChild, WritableSignal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { SurveyForm } from './survey-form/survey-form';
 
 /** Displays the modal form used to create a new survey. */
 @Component({
-  imports: [SurveyForm],
+  imports: [RouterLink, SurveyForm],
   selector: 'app-create-survey-dialog',
   styleUrls: ['./create-survey-dialog.scss', './create-survey-dialog.mobile.scss'],
   templateUrl: './create-survey-dialog.html',

@@ -6,13 +6,20 @@
   (close)="resetForm()"
 >
   <div class="create-survey-dialog__mobile-header">
-    <img
-      class="create-survey-dialog__mobile-logo"
-      src="/img/pollapp_orange.png"
-      alt="Poll App"
-      width="119"
-      height="50"
-    />
+    <a
+      class="create-survey-dialog__mobile-home-link"
+      routerLink="/"
+      aria-label="Back to Poll App home"
+      (click)="close()"
+    >
+      <img
+        class="create-survey-dialog__mobile-logo"
+        src="/img/pollapp_orange.png"
+        alt="Poll App"
+        width="119"
+        height="50"
+      />
+    </a>
   </div>
 
   <div class="create-survey-dialog__frame">

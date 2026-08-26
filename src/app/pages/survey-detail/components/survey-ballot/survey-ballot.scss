@@ -72,7 +72,7 @@
   min-height: functions.px-to-rem(24);
   padding: functions.px-to-rem(3) functions.px-to-rem(8);
   border-radius: functions.px-to-rem(3);
-  grid-template-columns: functions.px-to-rem(16) 1fr;
+  grid-template-columns: functions.px-to-rem(18) 1fr;
   gap: functions.px-to-rem(18);
   font-size: functions.px-to-rem(16);
   line-height: 1.15;
@@ -89,23 +89,22 @@
   &__box {
     position: relative;
     box-sizing: border-box;
-    width: functions.px-to-rem(15);
-    height: functions.px-to-rem(15);
-    margin-top: functions.px-to-rem(2);
+    width: functions.px-to-rem(18);
+    height: functions.px-to-rem(18);
     border: functions.px-to-rem(2) solid variables.$primary-purple;
-    border-radius: functions.px-to-rem(2);
+    border-radius: functions.px-to-rem(3);
   }
 
   input:checked + &__box {
+    border-color: variables.$primary-orange;
     background-color: variables.$primary-orange;
-    box-shadow: inset 0 0 0 functions.px-to-rem(2) variables.$survey-panel-purple;
 
     &::after {
       position: absolute;
       top: functions.px-to-rem(3);
-      left: functions.px-to-rem(3);
-      width: functions.px-to-rem(6);
-      height: functions.px-to-rem(3);
+      left: functions.px-to-rem(4);
+      width: functions.px-to-rem(7);
+      height: functions.px-to-rem(4);
       border-bottom: functions.px-to-rem(2) solid variables.$primary-purple;
       border-left: functions.px-to-rem(2) solid variables.$primary-purple;
       content: '';
